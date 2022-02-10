@@ -1,18 +1,8 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
-# ##### Import all data
-
-# In[2]:
-
+#  Import all data
 
 years = [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
 data = []
@@ -38,23 +28,15 @@ df = df.set_index(["TEAMS", "SEASON"]).sort_index()
 
 df.drop(["Rising Pune Supergiant", "Rising Pune Supergiants", "Pune Warriors",
          "Kochi Tuskers Kerala", "Deccan Chargers", "Gujarat Lions"], inplace=True)
+#  Removed due to low numbers of games worth keeping in?
 
-
-# In[3]:
-
-
-df
-
-
-# To find season table:
+#  To find season table:
 # 
-# > df.loc[pd.IndexSlice[:, **"year"**], :].sort_values("PT", ascending=False)
+#  df.loc[pd.IndexSlice[:, "year"], :].sort_values("PT", ascending=False)
 # 
-# To find team results:
+#  To find team results:
 # 
-# > df.loc[**"team"**]
-
-# In[4]:
+#  df.loc["team"]
 
 
 #  Pythagorean expectation
@@ -66,9 +48,6 @@ def pythagExpectForK(runsFor, runsAgainst, M, k):
     predWins = round(predWinPercent * M, 0)
     
     return predWinPercent, predWins
-
-
-# In[5]:
 
 
 exp = np.linspace(8.05, 8.08, 301)  # Found to be between 8 and 8.2 from previous iterations
@@ -100,13 +79,10 @@ for i in zipped:
     
 plt.plot(exp, MSE)  # Visualise MSE
 
-
-# ##### k = 8.062
-
-# In[6]:
-
+#  k = 8.062
 
 #  Pythagorean expectation using calculated k
+
 
 def pythagExpect(runsFor, runsAgainst, M):
     
@@ -114,10 +90,6 @@ def pythagExpect(runsFor, runsAgainst, M):
     predWins = round(predWinPercent * M, 0)
     
     return predWinPercent, predWins
-
-
-# In[7]:
-
 
 #  Test
 
@@ -130,24 +102,13 @@ predWinPercent, predWins = pythagExpect(runsFor, runsAgainst, M)
 print("Predicted number of wins:", predWins, "\nPredicted win %:", predWinPercent)  # Pred win needed?
 
 
-# In[8]:
-
-
 df["WIN %"] = (df["W"] / df["M"])
 df["PRED WIN %"], _ = pythagExpect(df["FOR"], df["AGAINST"], df["M"])
 
 
-# In[9]:
-
-
-df
-
-
-# In[10]:
-
-
 teams = df.index.get_level_values("TEAMS").unique()
 i = 0
+
 
 fig, axs = plt.subplots(3, 3, figsize=(16, 8))
 axs = axs.ravel()
@@ -162,7 +123,6 @@ for team in teams:
     
     axs[i].tick_params(axis="x", labelrotation=45)
     axs[i].set_ylim([0.2, 0.8])
-    #axs[i].legend()
     axs[i].title.set_text(team)
     
     i += 1
@@ -174,10 +134,4 @@ fig.delaxes(axs[8])
 fig.tight_layout()
 
 
-# ##### What now..?
-
-# In[ ]:
-
-
-
-
+#  What now..?
